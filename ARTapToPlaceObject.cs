@@ -37,20 +37,6 @@ namespace Interactions
         GameObject spawnedObject;
         Camera arCamera;
 
-
-        /*
-        public void SetIsObjectPlaced(bool value)
-        {
-            isPlaced = value;
-        }
-
-        public bool GetIsObjectPlaced()
-        {
-            return isPlaced;
-        }
-
-        */
-
         public bool IsObjectPlaced
         {
             set { isPlaced = value; }
@@ -120,7 +106,7 @@ namespace Interactions
             {
                 PlaceObject();
 
-                IsObjectPlaced = true;
+                // IsObjectPlaced = true;
 
                 // placementIndicator.SetActive(false);
             }
@@ -141,6 +127,7 @@ namespace Interactions
 
             if (Physics.Raycast(ray, out hit))
             {
+                
                 if (hit.transform.CompareTag(placementIndicator.transform.tag))
                 {
                     if (Instantiated == false)
@@ -154,16 +141,16 @@ namespace Interactions
                         spawnedObject = Instantiate(objectToPlace, placementPose.position, placementPose.rotation);
                         InstantiatedScale = spawnedObject.transform.localScale;
 
-                        eventHandler.ToggleResetPrefabBtn(true);
+                        
 
-                        // TogglePlacementIndicatorComponents(false);
+                        IsObjectPlaced = true;
 
                         Instantiated = true;
                     }
                     else if (Instantiated == true)
                     {
 
-                        // placementPoseIsValid = true;
+                        IsObjectPlaced = true;
 
                         ToggleSpawnedObject(true);
                     }
@@ -204,7 +191,7 @@ namespace Interactions
             arOrigin.Raycast(screenCenter, hits, TrackableType.Planes);
 
             placementPoseIsValid = hits.Count > 0;
-            if (placementPoseIsValid)
+            if (placementPoseIsValid && IsObjectPlaced == false)
             {
                 placementPose = hits[0].pose;
 
@@ -214,10 +201,13 @@ namespace Interactions
 
                 placementIndicator.SetActive(true);
                 placementIndicator.transform.SetPositionAndRotation(placementPose.position, placementPose.rotation);
+                
             }
-            else
+            else if(placementPoseIsValid && IsObjectPlaced == true)
             {
                 placementIndicator.SetActive(false);
+                eventHandler.ToggleResetPrefabBtn(true);
+                
             }
         }
 

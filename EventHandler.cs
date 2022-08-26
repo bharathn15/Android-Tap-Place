@@ -54,7 +54,9 @@ public class EventHandler : MonoBehaviour
             spawnedPrefab.SetActive(false);
             aRTapToPlaceObject.IsObjectPlaced = false;
 
+            ResetPrefabBtn.SetActive(false);
 
+            
 
         }
         else if (aRTapToPlaceObject.Instantiated && aRTapToPlaceObject.IsObjectPlaced == false)
@@ -63,8 +65,6 @@ public class EventHandler : MonoBehaviour
 
             spawnedPrefab.SetActive(true);
             aRTapToPlaceObject.IsObjectPlaced = true;
-
-
         }
 
     }
