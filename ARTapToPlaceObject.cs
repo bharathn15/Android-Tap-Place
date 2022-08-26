@@ -35,7 +35,7 @@ namespace Interactions
 
         List<ARRaycastHit> hits = new List<ARRaycastHit>();
         GameObject spawnedObject;
-        Camera arCamera;
+        // Camera arCamera;
 
         public bool IsObjectPlaced
         {
@@ -89,7 +89,7 @@ namespace Interactions
             arOrigin = FindObjectOfType<ARRaycastManager>();
 
             placementIndicator.transform.tag = "Placement Indicator";
-            arCamera = Camera.main.gameObject.GetComponent<Camera>();
+            // arCamera = Properties.MainCamera.gameObject.GetComponent<Camera>();
 
 
             IsObjectPlaced = false;
@@ -120,7 +120,7 @@ namespace Interactions
         private void PlaceObject()
         {
             // spawnedObject = objectToPlace;
-            Ray ray = arCamera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Properties.MainCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
 
@@ -186,7 +186,7 @@ namespace Interactions
         /// </summary>
         private void UpdatePlacementPose()
         {
-            var screenCenter = arCamera.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
+            var screenCenter = Properties.MainCamera.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
             var hits = new List<ARRaycastHit>();
             arOrigin.Raycast(screenCenter, hits, TrackableType.Planes);
 
