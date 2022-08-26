@@ -21,19 +21,19 @@ public class EventHandler : MonoBehaviour
 
     private void Awake()
     {
-        
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
 
@@ -46,25 +46,25 @@ public class EventHandler : MonoBehaviour
     {
         Debug.Log("Rest Prefab Method is working......");
         GameObject spawnedPrefab = aRTapToPlaceObject.GetSpawnedObject();
-        
-        if (aRTapToPlaceObject.Instantiated && aRTapToPlaceObject.GetIsObjectPlaced() == true)
-        {
-            Debug.Log(aRTapToPlaceObject.GetIsObjectPlaced());
-            
-            spawnedPrefab.SetActive(false);
-            aRTapToPlaceObject.SetIsObjectPlaced(false);
 
-            
+        if (aRTapToPlaceObject.Instantiated && aRTapToPlaceObject.IsObjectPlaced == true)
+        {
+            Debug.Log(aRTapToPlaceObject.IsObjectPlaced);
+
+            spawnedPrefab.SetActive(false);
+            aRTapToPlaceObject.IsObjectPlaced = false;
+
+
 
         }
-        else if(aRTapToPlaceObject.Instantiated && aRTapToPlaceObject.GetIsObjectPlaced() == false)
+        else if (aRTapToPlaceObject.Instantiated && aRTapToPlaceObject.IsObjectPlaced == false)
         {
-            Debug.Log(aRTapToPlaceObject.GetIsObjectPlaced());
-            
-            spawnedPrefab.SetActive(true);
-            aRTapToPlaceObject.SetIsObjectPlaced(true);
+            Debug.Log(aRTapToPlaceObject.IsObjectPlaced);
 
-            
+            spawnedPrefab.SetActive(true);
+            aRTapToPlaceObject.IsObjectPlaced = true;
+
+
         }
 
     }

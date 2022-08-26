@@ -1,22 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using PROPERTIES;
 
 
 namespace Interactions
 {
     public class RotateObj : MonoBehaviour
     {
-
-        RotateObj Instance;
-
-
-
-
-
-        float rotationSpeed = 0.08f;
-
 
         private void Awake()
         {
@@ -51,7 +42,7 @@ namespace Interactions
                 if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Began)
                 {
                     float x = 0;
-                    float y = -touch.deltaPosition.x * rotationSpeed;
+                    float y = -touch.deltaPosition.x * Properties.RotationSpeed;
                     float z = 0f;
                     transform.Rotate(x, y, z, Space.Self);
                 }

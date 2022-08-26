@@ -12,6 +12,8 @@ namespace PROPERTIES
 
         readonly private static string objectToPlaceTagName = "Spawnable Object";
 
+        readonly private static float rotationSpeed = 0.1f;
+
         public static Camera MainCamera
         {
             get { return mainCamera; }
@@ -20,6 +22,11 @@ namespace PROPERTIES
         public static string ObjectToPlaceTagName
         {
             get { return objectToPlaceTagName; }
+        }
+
+        public static float RotationSpeed
+        {
+            get { return rotationSpeed; }
         }
 
 

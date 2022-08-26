@@ -14,7 +14,7 @@ namespace Interactions
     {
         [Header("Script")]
         [SerializeField] private EventHandler eventHandler;
-        
+
 
         public GameObject objectToPlace;
         public GameObject placementIndicator;
@@ -38,7 +38,7 @@ namespace Interactions
         Camera arCamera;
 
 
-
+        /*
         public void SetIsObjectPlaced(bool value)
         {
             isPlaced = value;
@@ -47,6 +47,14 @@ namespace Interactions
         public bool GetIsObjectPlaced()
         {
             return isPlaced;
+        }
+
+        */
+
+        public bool IsObjectPlaced
+        {
+            set { isPlaced = value; }
+            get { return isPlaced; }
         }
 
         public bool Instantiated
@@ -98,21 +106,21 @@ namespace Interactions
             arCamera = Camera.main.gameObject.GetComponent<Camera>();
 
 
-            SetIsObjectPlaced(false);
+            IsObjectPlaced = false;
         }
 
         void Update()
         {
             UpdatePlacementPose();
-            UpdatePlacementIndicator();
+            // UpdatePlacementIndicator();
 
 
             /* Tap and Place the Object only once. */
-            if (placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && GetIsObjectPlaced().Equals(false))
+            if (placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && IsObjectPlaced == false)
             {
                 PlaceObject();
 
-                SetIsObjectPlaced(true);
+                IsObjectPlaced = true;
 
                 // placementIndicator.SetActive(false);
             }
@@ -129,7 +137,7 @@ namespace Interactions
             Ray ray = arCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            
+
 
             if (Physics.Raycast(ray, out hit))
             {
@@ -142,14 +150,14 @@ namespace Interactions
 
                         AddInteractionFunctionScript(objectToPlace, true);
                         AddTagToInstantiatedObject(objectToPlace);
-                        
+
                         spawnedObject = Instantiate(objectToPlace, placementPose.position, placementPose.rotation);
                         InstantiatedScale = spawnedObject.transform.localScale;
 
                         eventHandler.ToggleResetPrefabBtn(true);
 
                         // TogglePlacementIndicatorComponents(false);
-                        
+
                         Instantiated = true;
                     }
                     else if (Instantiated == true)
@@ -175,13 +183,12 @@ namespace Interactions
         {
             if (placementPoseIsValid)
             {
-                placementIndicator.SetActive(true);
-                placementIndicator.transform.SetPositionAndRotation(placementPose.position, placementPose.rotation);
+              
             }
-            else if(!placementPoseIsValid)
+            else if (!placementPoseIsValid)
             {
-                placementIndicator.SetActive(false);
                 
+
             }
         }
 
@@ -204,13 +211,20 @@ namespace Interactions
                 var cameraForward = Camera.current.transform.forward;
                 var cameraBearing = new Vector3(cameraForward.x, 0, cameraForward.z).normalized;
                 placementPose.rotation = Quaternion.LookRotation(cameraBearing);
+
+                placementIndicator.SetActive(true);
+                placementIndicator.transform.SetPositionAndRotation(placementPose.position, placementPose.rotation);
+            }
+            else
+            {
+                placementIndicator.SetActive(false);
             }
         }
 
 
         public void TogglePlacementIndicatorComponents(bool value)
         {
-            
+
             placementIndicator.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = value;
             placementIndicator.transform.GetChild(0).GetComponent<MeshCollider>().enabled = value;
 
@@ -234,7 +248,7 @@ namespace Interactions
             {
                 obj.AddComponent<ScaleObj>();
             }
-            
+
         }
 
 
@@ -245,7 +259,7 @@ namespace Interactions
         void AddTagToInstantiatedObject(GameObject objectToPlace)
         {
             string tagName = objectToPlace.transform.tag;
-            if(tagName == null)
+            if (tagName == null)
             {
                 tagName = Properties.ObjectToPlaceTagName;
             }
@@ -261,7 +275,7 @@ namespace Interactions
             Debug.Log("Reset of Prefab event is working.....");
             ToggleSpawnedObject(false);
             Instantiated = true;
-            SetIsObjectPlaced(false);
+            IsObjectPlaced = false;
         }
 
         /// <summary>
