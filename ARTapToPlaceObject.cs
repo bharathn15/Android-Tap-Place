@@ -123,11 +123,8 @@ namespace Interactions
             Ray ray = Properties.MainCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-
-
             if (Physics.Raycast(ray, out hit))
             {
-                
                 if (hit.transform.CompareTag(placementIndicator.transform.tag))
                 {
                     if (Instantiated == false)
@@ -140,9 +137,6 @@ namespace Interactions
 
                         spawnedObject = Instantiate(objectToPlace, placementPose.position, placementPose.rotation);
                         InstantiatedScale = spawnedObject.transform.localScale;
-
-                        
-
                         IsObjectPlaced = true;
 
                         Instantiated = true;
@@ -151,7 +145,6 @@ namespace Interactions
                     {
 
                         IsObjectPlaced = true;
-
                         ToggleSpawnedObject(true);
                     }
                 }

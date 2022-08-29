@@ -7,6 +7,7 @@ using Interactions;
 
 public class EventHandler : MonoBehaviour
 {
+
     [Header("Script")]
     [SerializeField] private ARTapToPlaceObject aRTapToPlaceObject;
 
@@ -23,14 +24,12 @@ public class EventHandler : MonoBehaviour
     {
 
     }
-
-    // Start is called before the first frame update
+   
     void Start()
     {
 
     }
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -41,7 +40,6 @@ public class EventHandler : MonoBehaviour
     /// <summary>
     /// Reset/Replace Prefab.
     /// </summary>
-
     public virtual void ResetPrefab()
     {
         Debug.Log("Rest Prefab Method is working......");
@@ -55,9 +53,6 @@ public class EventHandler : MonoBehaviour
             aRTapToPlaceObject.IsObjectPlaced = false;
 
             ResetPrefabBtn.SetActive(false);
-
-            
-
         }
         else if (aRTapToPlaceObject.Instantiated && aRTapToPlaceObject.IsObjectPlaced == false)
         {
