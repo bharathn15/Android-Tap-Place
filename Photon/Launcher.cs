@@ -15,7 +15,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     #endregion
 
     #region Private Fields
-
+    static bool isConnecting;
     #endregion
 
     #region Monobehaviour Call backs
@@ -51,12 +51,18 @@ public class Launcher : MonoBehaviourPunCallbacks
     public static void Connect()
     {
         bool isPhotonNetworkConnected = PhotonNetwork.IsConnected;
+
+        
+
         if (isPhotonNetworkConnected)
         {
             PhotonNetwork.JoinRandomRoom();
+            
         }
         else
         {
+            isConnecting = PhotonNetwork.ConnectUsingSettings();
+            Debug.Log($"Is Connecting {isConnecting}");
             PhotonNetwork.ConnectUsingSettings();
             PhotonNetwork.GameVersion = MultiPlayerProperties.GameVersion;
         }
@@ -71,14 +77,21 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         Debug.Log("PUN Basics Tutorial/Launcher: OnConnectedToMaster() was called by PUN");
 
-        // #Critical: The first we try to do is to join a potential existing room. If there is, good, else, we'll be called back with OnJoinRandomFailed()
-        PhotonNetwork.JoinRandomRoom();
+        if (isConnecting)
+        {
+            // #Critical: The first we try to do is to join a potential existing room. If there is, good, else, we'll be called back with OnJoinRandomFailed()
+            PhotonNetwork.JoinRandomRoom();
+            isConnecting = false;
+        }
+
+
     }
 
 
     public override void OnDisconnected(DisconnectCause cause)
     {
         Debug.LogWarningFormat("PUN Basics Tutorial/Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
+        isConnecting = false;
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -100,6 +113,27 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
+        // #Critical: We only load if we are the first player, else we rely on `PhotonNetwork.AutomaticallySyncScene` to sync our instance scene.
+
+        byte playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
+
+        switch (playerCount)
+        {
+            case 1:
+                Debug.Log("We load the 'Room for 1' ");
+                // #Critical
+                // Load the Room Level.
+                PhotonNetwork.LoadLevel("Room for 1");
+                break;
+
+            case 2:
+                Debug.Log("We load the 'Room for 2' ");
+                // #Critical
+                // Load the Room Level.
+                PhotonNetwork.LoadLevel("Room for 2");
+                break;
+        }
+
     }
 
     #endregion
